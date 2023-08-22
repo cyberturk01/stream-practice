@@ -27,3 +27,4 @@ replay_pid*
 /.idea
 /target
 stream-practice.iml
+.idea/dataSources.xml
