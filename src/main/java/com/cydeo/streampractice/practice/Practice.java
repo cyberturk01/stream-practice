@@ -6,7 +6,6 @@ import org.apache.catalina.Manager;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -94,7 +93,7 @@ public class Practice {
                 .collect(toList());
     }
 
-    // Display all the departments' managers' first names
+    // Display all the departments managers first names
     public static List<String> getAllDepartmentManagerFirstNames() {
 //        return getAllDepartments().stream()
 //                .map(Department::getManager)
@@ -185,6 +184,7 @@ public class Practice {
     public static Long getMaxSalary() throws Exception {
         return getAllEmployees().stream()
                 .map(Employee::getSalary)
+                .sorted()
                 .reduce(Long::max)
                 .orElseThrow();
     }
@@ -229,7 +229,6 @@ public class Practice {
 
     // Display the employee(s) who gets the second maximum salary
     public static List<Employee> getSecondMaxSalaryEmployee() {
-        //TODO Implement the method
         return getAllEmployees().stream()
                 .filter(employee -> {
                     try {
@@ -415,8 +414,7 @@ public class Practice {
 
     // Display the length of the longest full name(s)
     public static Integer getLongestNameLength() throws Exception {
-        return getAllEmployees().stream()
-                .map(e -> e.getFirstName() + " " + e.getLastName())
+        return getAllEmployeesFullNames().stream()
                 .map(String::length)
                 .max(Comparator.naturalOrder())
                 .orElseThrow();
@@ -424,20 +422,15 @@ public class Practice {
 
     // Display the employee(s) with the longest full name(s)
     public static List<Employee> getLongestNamedEmployee() {
-        return getAllEmployees().stream()
-                .map(e -> e.getFirstName() + " " + e.getLastName())
-                .sorted(Comparator.comparing(String::length).reversed())
-                .filter(n -> {
+        return employeeService.readAll().stream()
+                .filter(employee -> {
                     try {
-                        return n.length() == getLongestNameLength();
+                        return (employee.getFirstName()+" "+employee.getLastName()).length()==getLongestNameLength();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 })
-                .map(e -> new Employee())
-                .toList();
-
-        //SOR
+                .collect(toList());
     }
 
     // Display all the employees whose department id is 90, 60, 100, 120, or 130
