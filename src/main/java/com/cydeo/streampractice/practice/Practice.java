@@ -182,11 +182,19 @@ public class Practice {
 
     // Display the maximum salary an employee gets
     public static Long getMaxSalary() throws Exception {
+//        return getAllEmployees().stream()
+//                .map(Employee::getSalary)
+//                .reduce(Long::max)
+//                .orElseThrow();
+//        return getAllEmployees().stream()
+//                .max(Comparator.comparing(Employee::getSalary))
+//                .get().getSalary();
+//        return getAllEmployees().stream()
+//                .sorted(Comparator.comparing(Employee::getSalary).reversed)
+//                .findFirst().get().getSalary();
         return getAllEmployees().stream()
-                .map(Employee::getSalary)
-                .sorted()
-                .reduce(Long::max)
-                .orElseThrow();
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .limit(1).toList().get(0).getSalary();
     }
 
     // Display the employee(s) who gets the maximum salary
