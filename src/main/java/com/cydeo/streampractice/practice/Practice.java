@@ -181,7 +181,7 @@ public class Practice {
     }
 
     // Display the maximum salary an employee gets
-    public static Long getMaxSalary() throws Exception {
+    public static Long getMaxSalary() {
 //        return getAllEmployees().stream()
 //                .map(Employee::getSalary)
 //                .reduce(Long::max)
@@ -200,13 +200,7 @@ public class Practice {
     // Display the employee(s) who gets the maximum salary
     public static List<Employee> getMaxSalaryEmployee() {
         return getAllEmployees().stream()
-                .filter(d -> {
-                    try {
-                        return d.getSalary().equals(getMaxSalary());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .filter(d -> d.getSalary().equals(getMaxSalary()))
                 .collect(toList());
     }
 
@@ -227,7 +221,7 @@ public class Practice {
     }
 
     // Display the second maximum salary an employee gets
-    public static Long getSecondMaxSalary() throws Exception {
+    public static Long getSecondMaxSalary() {
         return getAllEmployees().stream()
                 .map(Employee::getSalary)
                 .skip(1)
@@ -238,18 +232,12 @@ public class Practice {
     // Display the employee(s) who gets the second maximum salary
     public static List<Employee> getSecondMaxSalaryEmployee() {
         return getAllEmployees().stream()
-                .filter(employee -> {
-                    try {
-                        return employee.getSalary().equals(getSecondMaxSalary());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .filter(employee ->employee.getSalary().equals(getSecondMaxSalary()))
                 .collect(toList());
     }
 
     // Display the minimum salary an employee gets
-    public static Long getMinSalary() throws Exception {
+    public static Long getMinSalary() {
         return getAllEmployees().stream()
                 .map(Employee::getSalary)
                 .reduce(Long::min)
@@ -259,13 +247,7 @@ public class Practice {
     // Display the employee(s) who gets the minimum salary
     public static List<Employee> getMinSalaryEmployee() {
         return getAllEmployees().stream()
-                .filter(employee -> {
-                    try {
-                        return employee.getSalary().equals(getMinSalary());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .filter(employee -> employee.getSalary().equals(getMinSalary()))
                 .collect(toList());
     }
 
@@ -346,19 +328,16 @@ public class Practice {
 
     // Display all the job histories where the start date is after 01.01.2005
     public static List<JobHistory> getAllJobHistoriesStartDateAfterFirstDayOfJanuary2005() {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate d1 = LocalDate.parse("01.01.2005", df);
         return jobHistoryService.readAll().stream()
-                .filter(e -> e.getStartDate().isAfter(d1))
+                .filter(e -> e.getStartDate().isAfter(LocalDate.of(2005, 1, 1)))
                 .collect(toList());
     }
 
     // Display all the job histories where the end date is 31.12.2007 and the job title of job is 'Programmer'
     public static List<JobHistory> getAllJobHistoriesEndDateIsLastDayOfDecember2007AndJobTitleIsProgrammer() {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate d1 = LocalDate.parse("31.12.2007", df);
         return jobHistoryService.readAll().stream()
-                .filter(e -> e.getEndDate().equals(d1) && e.getJob().getJobTitle().equals("Programmer"))
+                .filter(e -> e.getEndDate().equals(LocalDate.of(2007,12,31))
+                        && e.getJob().getJobTitle().equals("Programmer"))
                 .collect(toList());
     }
 
@@ -421,7 +400,7 @@ public class Practice {
     }
 
     // Display the length of the longest full name(s)
-    public static Integer getLongestNameLength() throws Exception {
+    public static Integer getLongestNameLength() {
         return getAllEmployeesFullNames().stream()
                 .map(String::length)
                 .max(Comparator.naturalOrder())
@@ -431,13 +410,7 @@ public class Practice {
     // Display the employee(s) with the longest full name(s)
     public static List<Employee> getLongestNamedEmployee() {
         return employeeService.readAll().stream()
-                .filter(employee -> {
-                    try {
-                        return (employee.getFirstName()+" "+employee.getLastName()).length()==getLongestNameLength();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .filter(employee ->(employee.getFirstName()+" "+employee.getLastName()).length()==getLongestNameLength())
                 .collect(toList());
     }
 
